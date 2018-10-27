@@ -63,13 +63,20 @@ def generate_txt_file(name, movies):
             for v in movie.values():
                 f.write(str(v)+"\t")
             f.write("\n")
+            
+def sort_movies(movies, reverse=False):
+    movies["movies"].sort(key=lambda movie: movie["rating_num"], reverse=reverse)
 
 if __name__ == "__main__":
     movies = get_movies()
     generate_json_file("movies", movies)
     generate_txt_file("movies", movies)
     for movie in movies["movies"]:
-        for v in movie.values():
-            print(v, end="  ")
-        print()
+#         for v in movie.values():
+#             print(v, end="  ")
+#         print()
         download_img(movie["num"], movie["name"], movie["img"])
+        
+    sort_movies(movies, reverse=True)
+    generate_txt_file("movies_sorted_by_rating", movies)
+    print("DONE.")
